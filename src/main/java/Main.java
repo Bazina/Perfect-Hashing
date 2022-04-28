@@ -107,6 +107,6 @@ public class Main {
         x.put(99,99);
         x.put(100,100);
 
-        System.out.println(x.rehashingCounter);
+        System.out.println(x.hashingCounter);
     }
 }
