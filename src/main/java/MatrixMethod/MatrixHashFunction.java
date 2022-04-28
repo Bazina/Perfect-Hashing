@@ -3,7 +3,17 @@ package MatrixMethod;
 import java.util.Arrays;
 
 public class MatrixHashFunction {
-    public int hashFn(int key) {
+    public static void main(String[] args) {
+        hashFn(1);
+        hashFn(2);
+        hashFn(3);
+        hashFn(4);
+        hashFn(5);
+        hashFn(6);
+        hashFn(7);
+        hashFn(8);
+    }
+    public static int hashFn(int key) {
         String x = Integer.toBinaryString(key);
         char[] z = new char[32];
         Arrays.fill(z, '0');
