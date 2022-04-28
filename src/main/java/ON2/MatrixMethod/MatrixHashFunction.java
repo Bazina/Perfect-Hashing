@@ -1,4 +1,4 @@
-package MatrixMethod;
+package ON2.MatrixMethod;
 
 import java.util.Arrays;
 
