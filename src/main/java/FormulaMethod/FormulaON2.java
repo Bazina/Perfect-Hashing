@@ -1,4 +1,4 @@
-package ON2.FormulaMethod;
+package FormulaMethod;
 
 import java.util.ArrayList;
 import java.util.List;

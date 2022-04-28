@@ -1,4 +1,4 @@
-import ON2.MatrixMethod.MatrixON2;
+import MatrixMethod.MatrixON2;
 
 public class Main {
     public static void main(String[] args) {
