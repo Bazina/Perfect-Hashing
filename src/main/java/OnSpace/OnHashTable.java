@@ -72,6 +72,10 @@ public abstract class OnHashTable<Integer, V> {
         return size;
     }
 
+    public int getHashingCounter() {
+        return hashingCounter;
+    }
+
     private int nextPowerTwo(int size) {
         int buffer = 2;
         while (buffer < size) buffer *= 2;

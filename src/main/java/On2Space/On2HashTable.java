@@ -10,7 +10,6 @@ public abstract class On2HashTable<Integer, V> {
     protected int hashingCounter = 0;
     protected ArrayList<Entry> entries;
     protected int size = 0;
-
     public On2HashTable(int maxSize, boolean matrix) {
         maxSize = (matrix) ? nextPowerTwo(maxSize) : maxSize;
         this.maxSize = (int) Math.pow(maxSize, 2);
@@ -18,6 +17,7 @@ public abstract class On2HashTable<Integer, V> {
     }
 
     abstract int hashFunction(int key);
+
     abstract void reHash();
 
     public void putData(List<Pair<Integer, V>> data) {
@@ -25,6 +25,7 @@ public abstract class On2HashTable<Integer, V> {
             put(item.getKey(), item.getValue());
         }
     }
+
     public void put(Integer key, V value) {
         size++;
         Entry entry = new Entry(key, value);
@@ -98,6 +99,10 @@ public abstract class On2HashTable<Integer, V> {
 
     public int getSize() {
         return size;
+    }
+
+    public int getHashingCounter() {
+        return hashingCounter;
     }
 
     class Entry {
