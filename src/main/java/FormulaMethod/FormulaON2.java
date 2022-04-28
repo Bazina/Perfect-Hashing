@@ -104,7 +104,7 @@ public class FormulaON2<Integer, V> {
         }
     }
 
-    static class Entry<K, V> {
+     static class Entry<K, V> {
         private final K key;
         private V value;
 

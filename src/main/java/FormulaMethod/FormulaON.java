@@ -1,20 +1,29 @@
 package FormulaMethod;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 public class FormulaON<Integer, V> {
-    private final int maxSize;
     private final int prime;
     public int hashingCounter = 0;
-    private ArrayList<Entry<Integer, V>> entries;
-    private int size = 0, hashA, hashB;
+    private int maxSize, size = 0;
+    private boolean reHashing = false;
+    private int hashA, hashB;
+
+    private LinkedList<Entry>[] entries;
+    private ArrayList<FormulaON2<Integer, V>> enhancedData;
+    private final int[] sizes;
 
     public FormulaON(int maxSize) {
-        this.maxSize = (int) Math.pow(maxSize, 2);
-        this.entries = new ArrayList<>(this.maxSize);
-        initiate(this.maxSize);
+        this.entries = new LinkedList[maxSize];
+        this.enhancedData = new ArrayList<>();
+        this.maxSize = maxSize;
+        this.sizes = new int[maxSize];
+
         prime = (int) Math.pow(2, 31) - 1;
         randFactors();
     }
@@ -30,90 +39,119 @@ public class FormulaON<Integer, V> {
         return (int) ((((long) hashA * key) + hashB) % prime) % maxSize;
     }
 
-    public void put(Integer key, V value) {
-        size++;
-        Entry<Integer, V> entry = new Entry<>(key, value);
-
-        int hash = hashFunction((int) key);
-
-        while (this.entries.get(hash) != null) {
-            reHash();
-            hash = hashFunction((int) key);
+    public void putData(List<Pair<Integer , V>> data) {
+        for (var item : data) {
+            put(item.getKey(), item.getValue());
         }
-        this.entries.set(hash, entry);
+
+        buildData();
+    }
+
+    private void put(Integer key, V value) {
+        Entry entry = getEntry(key);
+
+        if (entry != null) {
+            entry.value = value;
+            return;
+        }
+
+        size++;
+        sizes[hashFunction((int) key)]++;
+        LinkedList<Entry> bucket = getOrCreateBucket(key);
+        if (bucket != null)
+            bucket.addLast(new Entry(key, value));
+    }
+
+    private void buildData() {
+        for (int i = 0; i < this.maxSize; i++) {
+            this.enhancedData.add(null);
+        }
+
+        for (int i = 0; i < entries.length; i++) {
+            if(entries[i] == null) continue;
+            int currentSize = sizes[i];
+            FormulaON2<Integer , V> table = new FormulaON2<>(currentSize);
+            for (var item : entries[i]) {
+                table.put(item.key , item.value);
+            }
+            enhancedData.set(i , table) ;
+        }
     }
 
     public V get(Integer key) {
-        int hash = hashFunction((int) key);
-        Entry<Integer, V> entry = this.entries.get(hash);
-        return (entry == null) ? null : entry.value;
+        int hash1 = hashFunction((int)key) ;
+        return enhancedData.get(hash1).get(key) ;
     }
 
-    public void remove(Integer key) {
-        if (!contains(key))
-            return;
+//    public void remove(Integer key) {
+//        Entry entry = getEntry(key);
+//
+//        if (entry == null)
+//            throw new IllegalStateException();
+//
+//        getBucket(key).remove(entry);
+//        size--;
+//
+//        if (!this.reHashing && loadFactor() > 0.75)
+//            reHash();
+//    }
 
-        int hash = hashFunction((int) key);
-        this.entries.set(hash, null);
+    private LinkedList<Entry> getOrCreateBucket(Integer key) {
+        int index = hashFunction((int) key);
+
+        if (entries[index] == null)
+            entries[index] = new LinkedList<>();
+
+        return entries[index];
     }
 
-    private boolean contains(Integer key) {
-        return get(key) != null;
+    private Entry getEntry(Integer key) {
+        LinkedList<Entry> bucket = getBucket(key);
+
+        if (bucket != null)
+            for (Entry entry : bucket)
+                if (entry.key == key)
+                    return entry;
+
+        return null;
+    }
+
+    private LinkedList<Entry> getBucket(Integer key) {
+        return entries[hashFunction((int) key)];
     }
 
     private void reHash() {
-        List<Entry<Integer, V>> data = new ArrayList<>(this.entries);
-        boolean reHashing = false;
-        while (!reHashing) {
-            this.entries = new ArrayList<>();
-            initiate(this.maxSize);
-            this.randFactors();
+        LinkedList<Entry>[] entriesCopy = this.entries.clone();
 
-            boolean flag = true;
+        this.reHashing = true;
+        this.entries = new LinkedList[maxSize * 2];
 
-            for (Entry<Integer, V> datum : data) {
-                if (datum == null)
-                    continue;
+        for (int i = 0; i < maxSize; i++)
+            if (entriesCopy[i] != null)
+                for (Entry entry : entriesCopy[i])
+                    put(entry.key, entry.value);
 
-                int key = (int) datum.key;
-                int hash = hashFunction(key);
-
-                if (entries.get(hash) != null) {
-                    flag = false;
-                    break;
-                } else
-                    entries.set(hash, datum);
-            }
-
-            if (flag)
-                reHashing = true;
-        }
+        this.maxSize = maxSize * 2;
     }
 
-    private double loadFactor() {
+    public double loadFactor() {
         return (size * 1.0) / (maxSize * 1.0);
     }
 
-    public ArrayList<Entry<Integer, V>> getEntries() {
+    public LinkedList<Entry>[] getEntries() {
         return entries;
     }
 
-    private void initiate(int size) {
-        for (int i = 0; i < size; i++) {
-            this.entries.add(null);
-        }
-    }
-
-    static class Entry<K, V> {
-        private final K key;
+    class Entry {
+        private final Integer key;
         private V value;
 
-        public Entry(K key, V value) {
+        public Entry(Integer key, V value) {
             this.key = key;
             this.value = value;
         }
 
-        public K getKey() {
+        public Integer getKey() {
             return key;
         }
 
