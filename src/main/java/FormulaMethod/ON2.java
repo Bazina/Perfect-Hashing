@@ -7,7 +7,7 @@ import java.util.Random;
 public class ON2<Integer, V> {
     private final int maxSize;
     private final int prime;
-    public int no = 0;
+    public int hashingCounter = 0;
     private ArrayList<Entry<Integer, V>> entries;
     private int size = 0, hashA, hashB;
 
@@ -20,7 +20,8 @@ public class ON2<Integer, V> {
     }
 
     private void randFactors() {
-        var rand = new Random();
+        hashingCounter++;
+        Random rand = new Random();
         hashA = Math.abs(rand.nextInt()) % prime;
         hashB = (Math.abs(rand.nextInt()) + 1) % (prime - 1);
     }
@@ -61,8 +62,6 @@ public class ON2<Integer, V> {
     }
 
     private void reHash() {
-        no++;
-
         List<Entry<Integer, V>> data = new ArrayList<>(this.entries);
         boolean reHashing = false;
         while (!reHashing) {
@@ -73,16 +72,21 @@ public class ON2<Integer, V> {
             boolean flag = true;
 
             for (Entry<Integer, V> datum : data) {
-                if (datum == null) continue;
+                if (datum == null)
+                    continue;
+
                 int key = (int) datum.key;
                 int hash = hashFunction(key);
+
                 if (entries.get(hash) != null) {
                     flag = false;
                     break;
-                } else entries.set(hash, datum);
+                } else
+                    entries.set(hash, datum);
             }
 
-            if (flag) reHashing = true;
+            if (flag)
+                reHashing = true;
         }
     }
 
