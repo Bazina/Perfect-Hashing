@@ -14,8 +14,8 @@ public class MatrixON2<Integer, V> {
     private char[][] h;
 
     public MatrixON2(int maxSize) {
-        int b = (int) (Math.log(maxSize) / Math.log(2));
         this.maxSize = (int) Math.pow(maxSize, 2);
+        int b = (int) (Math.log(this.maxSize) / Math.log(2));
         this.entries = new ArrayList<>(this.maxSize);
         x = new char[32];
         h = new char[b][32];

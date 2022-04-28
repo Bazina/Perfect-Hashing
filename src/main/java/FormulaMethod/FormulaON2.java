@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ON2<Integer, V> {
+public class FormulaON2<Integer, V> {
     private final int maxSize;
     private final int prime;
     public int hashingCounter = 0;
     private ArrayList<Entry<Integer, V>> entries;
     private int size = 0, hashA, hashB;
 
-    public ON2(int maxSize) {
+    public FormulaON2(int maxSize) {
         this.maxSize = (int) Math.pow(maxSize, 2);
         this.entries = new ArrayList<>(this.maxSize);
         initiate(this.maxSize);
