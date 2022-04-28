@@ -3,7 +3,10 @@ package OnSpace;
 import On2Space.MatrixOn2HashTable;
 import javafx.util.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static java.lang.Integer.toBinaryString;
 

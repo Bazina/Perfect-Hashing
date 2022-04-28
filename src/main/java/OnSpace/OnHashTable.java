@@ -3,9 +3,9 @@ package OnSpace;
 import java.util.LinkedList;
 
 public abstract class OnHashTable<Integer, V> {
+    protected final int[] sizes;
     protected int hashingCounter = 0;
     protected int maxSize, size = 0;
-    protected final int[] sizes;
     protected LinkedList<Entry>[] entries;
 
     public OnHashTable(int maxSize, boolean matrix) {

@@ -3,6 +3,7 @@ package On2Space;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static java.lang.Integer.toBinaryString;
 
 public class MatrixOn2HashTable<Integer, V> extends On2HashTable<Integer, V> {

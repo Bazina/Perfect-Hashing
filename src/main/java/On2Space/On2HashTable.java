@@ -10,6 +10,7 @@ public abstract class On2HashTable<Integer, V> {
     protected int hashingCounter = 0;
     protected ArrayList<Entry> entries;
     protected int size = 0;
+
     public On2HashTable(int maxSize, boolean matrix) {
         maxSize = (matrix) ? nextPowerTwo(maxSize) : maxSize;
         this.maxSize = (int) Math.pow(maxSize, 2);
