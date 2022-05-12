@@ -1,4 +1,5 @@
 import On2Space.FormulaOn2HashTable;
+import OnSpace.FormulaOnHashTable;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -6,7 +7,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        FormulaOn2HashTable<Integer, Integer> x = new FormulaOn2HashTable<>(8);
+        FormulaOnHashTable<Integer, Integer> x = new FormulaOnHashTable<>(8);
         //for (int i = 1; i < 101; i++) {
         //    System.out.println("x.put(" + i + "," + i + ");");
         //}
@@ -30,7 +31,7 @@ public class Main {
 
         x.putData(data);
 
-
-        System.out.println(x.get(7));
+        System.out.println(x.getTotalEntries());
+        System.out.println(x.getHashingCounter());
     }
 }

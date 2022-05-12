@@ -5,12 +5,16 @@ import java.util.LinkedList;
 public abstract class OnHashTable<Integer, V> {
     protected final int[] sizes;
     protected int hashingCounter = 0;
+    protected int totalEntries = 0;
     protected int maxSize, size = 0;
     protected LinkedList<Entry>[] entries;
-
     public OnHashTable(int maxSize, boolean matrix) {
         this.maxSize = (matrix) ? nextPowerTwo(maxSize) : maxSize;
         this.sizes = new int[this.maxSize];
+    }
+
+    public int getTotalEntries() {
+        return totalEntries;
     }
 
     abstract int hashFunction(int key);

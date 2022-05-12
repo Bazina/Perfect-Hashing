@@ -8,13 +8,18 @@ import java.util.List;
 public abstract class On2HashTable<Integer, V> {
     protected final int maxSize;
     protected int hashingCounter = 0;
+    protected int totalEntries = 0;
     protected ArrayList<Entry> entries;
     protected int size = 0;
-
     public On2HashTable(int maxSize, boolean matrix) {
         maxSize = (matrix) ? nextPowerTwo(maxSize) : maxSize;
         this.maxSize = (int) Math.pow(maxSize, 2);
         this.entries = new ArrayList<>(this.maxSize);
+        this.totalEntries = this.maxSize;
+    }
+
+    public int getTotalEntries() {
+        return totalEntries;
     }
 
     abstract int hashFunction(int key);
