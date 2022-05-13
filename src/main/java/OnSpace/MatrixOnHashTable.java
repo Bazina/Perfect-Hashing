@@ -54,7 +54,7 @@ public class MatrixOnHashTable<Integer, V> extends OnHashTable<Integer, V> {
             int value = 0;
             for (int m = 0; m < 32; m++)
                 value += java.lang.Integer.parseInt(chars[m] + "", 2) *
-                        java.lang.Integer.parseInt(x[m] + "", 2);
+                         java.lang.Integer.parseInt(x[m] + "", 2);
             String dummy = java.lang.Integer.toBinaryString(value);
             hx[j++] = (dummy.charAt(dummy.length() - 1));
         }

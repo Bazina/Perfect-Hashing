@@ -56,8 +56,8 @@ public class FormulaOnHashTable<Integer, V> extends OnHashTable<Integer, V> {
                 table.put(item.getKey(), item.getValue());
             }
             enhancedData.set(i, table);
-            this.totalEntries += table.getTotalEntries() ;
-            this.hashingCounter += table.getHashingCounter() ;
+            this.totalEntries += table.getTotalEntries();
+            this.hashingCounter += table.getHashingCounter();
         }
     }
 
